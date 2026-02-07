@@ -1,62 +1,90 @@
 # api/index.py
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
+import pymongo
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+DB_URI = os.getenv("MONGODB_URI_CONNECTION")
+DB_DOC = "hydrolab-database-v0"
+
+database_client = pymongo.MongoClient(DB_URI)
+collection_name = database_client[DB_DOC]
+
+LAT_BINS = [(-90, -30), (-30, 30), (30, 90)]
+LON_BINS = [
+    (-180, -120), (-120, -60), (-60, 0),
+    (0, 60), (60, 120), (120, 180)
+]
+
+
+def find_area(lat, lon):
+
+    area_id = 1
+
+    for lat_min, lat_max in LAT_BINS:
+        for lon_min, lon_max in LON_BINS:
+
+            if (
+                lat_min <= lat < lat_max and
+                lon_min <= lon < lon_max
+            ):
+                return f"Area_{area_id}"
+
+            area_id += 1
+
+    return None
+
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def home():
     return "API IS RUNNING WELL"
 
-@app.route("/about")
-def about():
-    return "About Page"
 
-# Dummy data
-DATA_CONTENT = [
-    {
-        "id": "1",
-        "name": "Lokasi A",
-        "description": "Ini adalah lokasi A",
-        "long": 106.84513,
-        "lat": -6.21462
-    },
-    {
-        "id": "2",
-        "name": "Lokasi B",
-        "description": "Ini adalah lokasi B",
-        "long": 107.61912,
-        "lat": -6.91746
-    },
-    {
-        "id": "3",
-        "name": "Lokasi C",
-        "description": "Ini adalah lokasi C",
-        "long": 110.36949,
-        "lat": -7.79558
-    }
-]
-
-@app.route("/api/contents", methods=["GET"])
+@app.route("/api/search", methods=["GET"])
 def get_contents():
-    return jsonify({
-        "status": "success",
-        "data": DATA_CONTENT
-    })
+    try:
+        data = request.get_json()
+        latitude = float(data["lat"])
+        longitude = float(data["lon"])
+        range = float(data["range"])
 
-@app.route("/api/contents/<string:content_id>", methods=["GET"])
-def get_content_by_id(content_id):
-    content = next((item for item in DATA_CONTENT if item["id"] == content_id), None)
-    
-    if content is None:
+        if latitude is None or longitude is None:
+            return jsonify({"message": "lat & lon required"}), 400
+
+        area = find_area(latitude, longitude)
+
+        if not area:
+            return jsonify({
+                "message": "Out of bound",
+                "area": "OOB",
+                "count": 0,
+                "data": []
+            }), 404
+
+        collection = collection_name[area]
+        
+        data = list(collection.find())
+
         return jsonify({
-            "status": "error",
-            "message": "Data not found"
-        }), 404
+            "message": "success",
+            "area": area,
+            "count": len(data),
+            "data": data
+        }), 200
 
-    return jsonify({
-        "status": "success",
-        "data": content
-    })
+    except Exception as e:
+        return jsonify({
+            "message": str(e),
+            "area": "OOB",
+            "count": 0,
+            "data": []
+        }), 500
+
 
 # local development only
 if __name__ == "__main__":

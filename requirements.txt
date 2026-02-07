@@ -8,3 +8,5 @@ Jinja2==3.1.6
 MarkupSafe==3.0.3
 Werkzeug==3.1.5
 zipp==3.23.0
+pymongo
+python-dotenv
