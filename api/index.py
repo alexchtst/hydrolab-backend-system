@@ -18,6 +18,9 @@ LON_BINS = [
     (0, 60), (60, 120), (120, 180)
 ]
 
+OFFSET_PAGINATION = 10
+MAX_TOTAL_DATA = 600
+
 
 def find_area(lat, lon):
 
@@ -45,6 +48,56 @@ def home():
     return "API IS RUNNING WELL"
 
 
+@app.route("/api/data/<int:pagination>", methods=["GET"])
+def get_all(pagination: int):
+    try:
+        collection = collection_name["full_data"]
+
+        if pagination < 1:
+            pagination = 1
+
+        limit = OFFSET_PAGINATION
+        skip = (pagination - 1) * limit
+
+        cursor = collection.find().skip(skip).limit(limit)
+
+        data = list(cursor)
+
+        total_data = collection.count_documents({})
+
+        return jsonify({
+            "message": "success",
+            "page": pagination,
+            "per_page": limit,
+            "total_data": total_data,
+            "total_page": (total_data + limit - 1) // limit,
+            "data": data
+        }), 200
+
+    except Exception as e:
+        return jsonify({
+            "message": str(e),
+            "count": 0,
+            "data": []
+        }), 500
+
+
+@app.route("/api/detail/<id>", methods=["GET"])
+def get_cdetail_content(id: str):
+    try:
+        collection = collection_name["full_data"]
+        document = collection.find_one({"_id": id})
+        return jsonify({
+            "message": "success",
+            "data": document
+        }), 200
+    except Exception as E:
+        return jsonify({
+            "message": str(E),
+            "data": None
+        }), 500
+
+
 @app.route("/api/search", methods=["GET"])
 def get_contents():
     try:
@@ -67,7 +120,7 @@ def get_contents():
             }), 404
 
         collection = collection_name[area]
-        
+
         data = list(collection.find())
 
         return jsonify({
