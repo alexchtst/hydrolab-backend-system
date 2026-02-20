@@ -42,7 +42,9 @@ def find_area(lat, lon):
 
     return None
 
+
 EARTH_RADIUS_KM = 6371
+
 
 def haversine(lat1, lon1, lat2, lon2):
     d_lat = math.radians(lat2 - lat1)
@@ -62,8 +64,10 @@ def serialize_doc(doc):
     doc["_id"] = str(doc["_id"])
     return doc
 
+
 app = Flask(__name__)
 Swagger(app)
+
 
 @app.route("/")
 def home():
@@ -72,11 +76,14 @@ def home():
     ---
     responses:
       200:
-        description: API is running successfully
-        examples:
-          text/plain: API IS RUNNING WELL
+        description: Return the api system status and documentation
     """
-    return f"API IS RUNNING WELL, The documentation is in /apidocs"
+    return jsonify({
+        "message": "API IS RUNNING WELL",
+        "hosted-api-documentation": "https://hydrolab-backend-system.vercel.app/apidocs",
+        "local-api-documentation": "http://localhost:5000/apidocs"
+    }), 200
+
 
 @app.route("/api/data/<int:pagination>", methods=["GET"])
 def get_all(pagination: int):
@@ -144,6 +151,7 @@ def get_all(pagination: int):
             "data": []
         }), 500
 
+
 @app.route("/api/detail/<id>", methods=["GET"])
 def get_cdetail_content(id: str):
     """
@@ -186,6 +194,7 @@ def get_cdetail_content(id: str):
             "message": str(E),
             "data": None
         }), 500
+
 
 @app.route("/api/search", methods=["GET"])
 def get_contents():
@@ -285,7 +294,7 @@ def get_contents():
             "count": 0,
             "data": []
         }), 500
-        
+
 # local development only
 if __name__ == "__main__":
     app.run(debug=True)
