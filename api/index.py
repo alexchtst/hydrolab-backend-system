@@ -4,6 +4,8 @@ import pymongo
 from dotenv import load_dotenv
 import math
 import os
+from flasgger import Swagger
+from bson import ObjectId
 
 load_dotenv()
 
@@ -61,15 +63,57 @@ def serialize_doc(doc):
     return doc
 
 app = Flask(__name__)
-
+Swagger(app)
 
 @app.route("/")
 def home():
-    return "API IS RUNNING WELL"
-
+    """
+    Home Endpoint
+    ---
+    responses:
+      200:
+        description: API is running successfully
+        examples:
+          text/plain: API IS RUNNING WELL
+    """
+    return f"API IS RUNNING WELL, The documentation is in /apidocs"
 
 @app.route("/api/data/<int:pagination>", methods=["GET"])
 def get_all(pagination: int):
+    """
+    Get All Data with Pagination
+    ---
+    tags:
+      - Data
+    parameters:
+      - name: pagination
+        in: path
+        type: integer
+        required: true
+        description: Page number (starting from 1)
+    responses:
+      200:
+        description: Paginated data
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            page:
+              type: integer
+            per_page:
+              type: integer
+            total_data:
+              type: integer
+            total_page:
+              type: integer
+            data:
+              type: array
+              items:
+                type: object
+      500:
+        description: Server error
+    """
     try:
         collection = collection_name["full_data"]
 
@@ -80,8 +124,7 @@ def get_all(pagination: int):
         skip = (pagination - 1) * limit
 
         cursor = collection.find().skip(skip).limit(limit)
-
-        data = list(cursor)
+        data = [serialize_doc(doc) for doc in cursor]
 
         total_data = collection.count_documents({})
 
@@ -101,25 +144,95 @@ def get_all(pagination: int):
             "data": []
         }), 500
 
-
 @app.route("/api/detail/<id>", methods=["GET"])
 def get_cdetail_content(id: str):
+    """
+    Get Detail by ID
+    ---
+    tags:
+      - Data
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+        description: MongoDB document ID
+    responses:
+      200:
+        description: Single document detail
+      404:
+        description: Data not found
+      500:
+        description: Server error
+    """
     try:
         collection = collection_name["full_data"]
-        document = collection.find_one({"_id": id})
+
+        document = collection.find_one({"_id": ObjectId(id)})
+
+        if not document:
+            return jsonify({
+                "message": "Data not found",
+                "data": None
+            }), 404
+
         return jsonify({
             "message": "success",
-            "data": document
+            "data": serialize_doc(document)
         }), 200
+
     except Exception as E:
         return jsonify({
             "message": str(E),
             "data": None
         }), 500
 
-
 @app.route("/api/search", methods=["GET"])
 def get_contents():
+    """
+    Search Nearest Stations
+    ---
+    tags:
+      - Search
+    parameters:
+      - name: lat
+        in: query
+        type: number
+        required: true
+        description: Latitude coordinate
+      - name: lon
+        in: query
+        type: number
+        required: true
+        description: Longitude coordinate
+      - name: range
+        in: query
+        type: number
+        required: false
+        description: Search radius in KM (default 10km)
+    responses:
+      200:
+        description: List of stations within radius
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+            area:
+              type: string
+            count:
+              type: integer
+            data:
+              type: array
+              items:
+                type: object
+      400:
+        description: Missing lat/lon
+      404:
+        description: Out of bound
+      500:
+        description: Server error
+    """
     try:
         latitude = request.args.get("lat", type=float)
         longitude = request.args.get("lon", type=float)
@@ -139,8 +252,6 @@ def get_contents():
             }), 404
 
         collection = collection_name[area]
-
-        # Ambil semua candidate di area
         candidates = list(collection.find())
 
         result = []
@@ -158,7 +269,6 @@ def get_contents():
                 doc["distance"] = distance
                 result.append(serialize_doc(doc))
 
-        # Sort berdasarkan jarak
         result.sort(key=lambda x: x["distance"])
 
         return jsonify({
@@ -175,7 +285,7 @@ def get_contents():
             "count": 0,
             "data": []
         }), 500
-
+        
 # local development only
 if __name__ == "__main__":
     app.run(debug=True)
