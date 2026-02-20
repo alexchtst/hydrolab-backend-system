@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, request
 import pymongo
 from dotenv import load_dotenv
+import math
 import os
 
 load_dotenv()
@@ -39,6 +40,25 @@ def find_area(lat, lon):
 
     return None
 
+EARTH_RADIUS_KM = 6371
+
+def haversine(lat1, lon1, lat2, lon2):
+    d_lat = math.radians(lat2 - lat1)
+    d_lon = math.radians(lon2 - lon1)
+
+    a = (
+        math.sin(d_lat / 2) ** 2
+        + math.cos(math.radians(lat1))
+        * math.cos(math.radians(lat2))
+        * math.sin(d_lon / 2) ** 2
+    )
+
+    return EARTH_RADIUS_KM * 2 * math.asin(math.sqrt(a))
+
+
+def serialize_doc(doc):
+    doc["_id"] = str(doc["_id"])
+    return doc
 
 app = Flask(__name__)
 
@@ -101,10 +121,9 @@ def get_cdetail_content(id: str):
 @app.route("/api/search", methods=["GET"])
 def get_contents():
     try:
-        data = request.get_json()
-        latitude = float(data["lat"])
-        longitude = float(data["lon"])
-        range = float(data["range"])
+        latitude = request.args.get("lat", type=float)
+        longitude = request.args.get("lon", type=float)
+        radius_km = request.args.get("range", type=float, default=10)
 
         if latitude is None or longitude is None:
             return jsonify({"message": "lat & lon required"}), 400
@@ -121,13 +140,32 @@ def get_contents():
 
         collection = collection_name[area]
 
-        data = list(collection.find())
+        # Ambil semua candidate di area
+        candidates = list(collection.find())
+
+        result = []
+
+        for doc in candidates:
+            lat2 = doc.get("latitude")
+            lon2 = doc.get("longitude")
+
+            if lat2 is None or lon2 is None:
+                continue
+
+            distance = haversine(latitude, longitude, lat2, lon2)
+
+            if distance <= radius_km:
+                doc["distance"] = distance
+                result.append(serialize_doc(doc))
+
+        # Sort berdasarkan jarak
+        result.sort(key=lambda x: x["distance"])
 
         return jsonify({
             "message": "success",
             "area": area,
-            "count": len(data),
-            "data": data
+            "count": len(result),
+            "data": result
         }), 200
 
     except Exception as e:
@@ -137,7 +175,6 @@ def get_contents():
             "count": 0,
             "data": []
         }), 500
-
 
 # local development only
 if __name__ == "__main__":
