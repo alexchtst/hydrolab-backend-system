@@ -11,3 +11,4 @@ zipp==3.23.0
 pymongo
 python-dotenv
 flasgger
+flask-cors

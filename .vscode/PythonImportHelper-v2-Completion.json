@@ -1,0 +1,484 @@
+[
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "math",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "math",
+        "description": "math",
+        "detail": "math",
+        "documentation": {}
+    },
+    {
+        "label": "Path",
+        "importPath": "pathlib",
+        "description": "pathlib",
+        "isExtraImport": true,
+        "detail": "pathlib",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "jsonify",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "pymongo",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "pymongo",
+        "description": "pymongo",
+        "detail": "pymongo",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "Swagger",
+        "importPath": "flasgger",
+        "description": "flasgger",
+        "isExtraImport": true,
+        "detail": "flasgger",
+        "documentation": {}
+    },
+    {
+        "label": "Swagger",
+        "importPath": "flasgger",
+        "description": "flasgger",
+        "isExtraImport": true,
+        "detail": "flasgger",
+        "documentation": {}
+    },
+    {
+        "label": "ObjectId",
+        "importPath": "bson",
+        "description": "bson",
+        "isExtraImport": true,
+        "detail": "bson",
+        "documentation": {}
+    },
+    {
+        "label": "CORS",
+        "importPath": "flask_cors",
+        "description": "flask_cors",
+        "isExtraImport": true,
+        "detail": "flask_cors",
+        "documentation": {}
+    },
+    {
+        "label": "*",
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "isExtraImport": true,
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_all_data",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def get_all_data():\n    return all_data\ndef get_paginated_data(page: int, limit: int):\n    total = len(all_data)\n    total_pages = math.ceil(total / limit)\n    start = (page - 1) * limit\n    end = start + limit\n    return {\n        \"data\": all_data[start:end],\n        \"total\": total,",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_paginated_data",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def get_paginated_data(page: int, limit: int):\n    total = len(all_data)\n    total_pages = math.ceil(total / limit)\n    start = (page - 1) * limit\n    end = start + limit\n    return {\n        \"data\": all_data[start:end],\n        \"total\": total,\n        \"totalPages\": total_pages,\n    }",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_data_by_id",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def get_data_by_id(station_id):\n    for item in all_data:\n        if item[\"Station_ID\"] == station_id:\n            return item\n    return None\ndef get_cell_index(lat, lon):\n    row = math.floor(\n        (lat - grid_meta[\"lat_start\"]) / grid_meta[\"lat_step\"]\n    )\n    col = math.floor(",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_cell_index",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def get_cell_index(lat, lon):\n    row = math.floor(\n        (lat - grid_meta[\"lat_start\"]) / grid_meta[\"lat_step\"]\n    )\n    col = math.floor(\n        (lon - grid_meta[\"lon_start\"]) / grid_meta[\"lon_step\"]\n    )\n    return row, col\ndef get_area_id(lat, lon):\n    row, col = get_cell_index(lat, lon)",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_area_id",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def get_area_id(lat, lon):\n    row, col = get_cell_index(lat, lon)\n    if (\n        row < 0\n        or row >= grid_meta[\"lat_count\"]\n        or col < 0\n        or col >= grid_meta[\"lon_count\"]\n    ):\n        return None\n    area_id = row * grid_meta[\"lon_count\"] + col + 1",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_neighbor_areas",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def get_neighbor_areas(lat, lon, radius=1):\n    row, col = get_cell_index(lat, lon)\n    result = []\n    for dr in range(-radius, radius + 1):\n        for dc in range(-radius, radius + 1):\n            r = row + dr\n            c = col + dc\n            if (\n                0 <= r < grid_meta[\"lat_count\"]\n                and 0 <= c < grid_meta[\"lon_count\"]",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "haversine",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def haversine(lat1, lon1, lat2, lon2):\n    R = 6371\n    dlat = math.radians(lat2 - lat1)\n    dlon = math.radians(lon2 - lon1)\n    a = (\n        math.sin(dlat / 2) ** 2\n        + math.cos(math.radians(lat1))\n        * math.cos(math.radians(lat2))\n        * math.sin(dlon / 2) ** 2\n    )",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "search_nearest",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def search_nearest(lat, lon, radius_km=1):\n    CELL_LAT_KM = 10\n    CELL_LON_KM = 5\n    cell_radius_lat = math.ceil(radius_km / CELL_LAT_KM)\n    cell_radius_lon = math.ceil(radius_km / CELL_LON_KM)\n    cell_radius = max(cell_radius_lat, cell_radius_lon)\n    areas = get_neighbor_areas(lat, lon, cell_radius)\n    candidates = []\n    for area in areas:\n        data = splited_data.get(area, [])",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "get_pairing_data_by_id",
+        "kind": 2,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "def get_pairing_data_by_id(id: str):\n    return pairing_content.get(id)",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "BASE_DIR",
+        "kind": 5,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "BASE_DIR = Path(__file__).resolve().parent.parent\nDATA_DIR = BASE_DIR / \"data\"\nwith open(DATA_DIR / \"info-grid.json\") as f:\n    grid_meta = json.load(f)\nwith open(DATA_DIR / \"all-data.json\") as f:\n    all_data = json.load(f)\nwith open(DATA_DIR / \"splited-data.json\") as f:\n    splited_data = json.load(f)\nwith open(DATA_DIR / \"pairingdata.json\") as f:\n    pairing_raw = json.load(f)",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "DATA_DIR",
+        "kind": 5,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "DATA_DIR = BASE_DIR / \"data\"\nwith open(DATA_DIR / \"info-grid.json\") as f:\n    grid_meta = json.load(f)\nwith open(DATA_DIR / \"all-data.json\") as f:\n    all_data = json.load(f)\nwith open(DATA_DIR / \"splited-data.json\") as f:\n    splited_data = json.load(f)\nwith open(DATA_DIR / \"pairingdata.json\") as f:\n    pairing_raw = json.load(f)\npairing_year = pairing_raw[\"year\"]",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "pairing_year",
+        "kind": 5,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "pairing_year = pairing_raw[\"year\"]\npairing_content = pairing_raw[\"content\"]\ndef get_all_data():\n    return all_data\ndef get_paginated_data(page: int, limit: int):\n    total = len(all_data)\n    total_pages = math.ceil(total / limit)\n    start = (page - 1) * limit\n    end = start + limit\n    return {",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "pairing_content",
+        "kind": 5,
+        "importPath": "services.data_service",
+        "description": "services.data_service",
+        "peekOfCode": "pairing_content = pairing_raw[\"content\"]\ndef get_all_data():\n    return all_data\ndef get_paginated_data(page: int, limit: int):\n    total = len(all_data)\n    total_pages = math.ceil(total / limit)\n    start = (page - 1) * limit\n    end = start + limit\n    return {\n        \"data\": all_data[start:end],",
+        "detail": "services.data_service",
+        "documentation": {}
+    },
+    {
+        "label": "find_area",
+        "kind": 2,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "def find_area(lat, lon):\n    area_id = 1\n    for lat_min, lat_max in LAT_BINS:\n        for lon_min, lon_max in LON_BINS:\n            if (\n                lat_min <= lat < lat_max and\n                lon_min <= lon < lon_max\n            ):\n                return f\"Area_{area_id}\"\n            area_id += 1",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "haversine",
+        "kind": 2,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "def haversine(lat1, lon1, lat2, lon2):\n    d_lat = math.radians(lat2 - lat1)\n    d_lon = math.radians(lon2 - lon1)\n    a = (\n        math.sin(d_lat / 2) ** 2\n        + math.cos(math.radians(lat1))\n        * math.cos(math.radians(lat2))\n        * math.sin(d_lon / 2) ** 2\n    )\n    return EARTH_RADIUS_KM * 2 * math.asin(math.sqrt(a))",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "serialize_doc",
+        "kind": 2,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "def serialize_doc(doc):\n    doc[\"_id\"] = str(doc[\"_id\"])\n    return doc\napp = Flask(__name__)\nSwagger(app)\n@app.route(\"/\")\ndef home():\n    \"\"\"\n    Home Endpoint\n    ---",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "home",
+        "kind": 2,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "def home():\n    \"\"\"\n    Home Endpoint\n    ---\n    responses:\n      200:\n        description: Return the api system status and documentation\n    \"\"\"\n    return jsonify({\n        \"message\": \"API IS RUNNING WELL\",",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "get_all",
+        "kind": 2,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "def get_all(pagination: int):\n    \"\"\"\n    Get All Data with Pagination\n    ---\n    tags:\n      - Data\n    parameters:\n      - name: pagination\n        in: path\n        type: integer",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "get_cdetail_content",
+        "kind": 2,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "def get_cdetail_content(id: str):\n    \"\"\"\n    Get Detail by ID\n    ---\n    tags:\n      - Data\n    parameters:\n      - name: id\n        in: path\n        type: string",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "get_contents",
+        "kind": 2,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "def get_contents():\n    \"\"\"\n    Search Nearest Stations\n    ---\n    tags:\n      - Search\n    parameters:\n      - name: lat\n        in: query\n        type: number",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "DB_URI",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "DB_URI = os.getenv(\"MONGODB_URI_CONNECTION\")\nDB_DOC = \"hydrolab-database-v0\"\ndatabase_client = pymongo.MongoClient(DB_URI)\ncollection_name = database_client[DB_DOC]\nLAT_BINS = [(-90, -30), (-30, 30), (30, 90)]\nLON_BINS = [\n    (-180, -120), (-120, -60), (-60, 0),\n    (0, 60), (60, 120), (120, 180)\n]\nOFFSET_PAGINATION = 10",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "DB_DOC",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "DB_DOC = \"hydrolab-database-v0\"\ndatabase_client = pymongo.MongoClient(DB_URI)\ncollection_name = database_client[DB_DOC]\nLAT_BINS = [(-90, -30), (-30, 30), (30, 90)]\nLON_BINS = [\n    (-180, -120), (-120, -60), (-60, 0),\n    (0, 60), (60, 120), (120, 180)\n]\nOFFSET_PAGINATION = 10\nMAX_TOTAL_DATA = 600",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "database_client",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "database_client = pymongo.MongoClient(DB_URI)\ncollection_name = database_client[DB_DOC]\nLAT_BINS = [(-90, -30), (-30, 30), (30, 90)]\nLON_BINS = [\n    (-180, -120), (-120, -60), (-60, 0),\n    (0, 60), (60, 120), (120, 180)\n]\nOFFSET_PAGINATION = 10\nMAX_TOTAL_DATA = 600\ndef find_area(lat, lon):",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "collection_name",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "collection_name = database_client[DB_DOC]\nLAT_BINS = [(-90, -30), (-30, 30), (30, 90)]\nLON_BINS = [\n    (-180, -120), (-120, -60), (-60, 0),\n    (0, 60), (60, 120), (120, 180)\n]\nOFFSET_PAGINATION = 10\nMAX_TOTAL_DATA = 600\ndef find_area(lat, lon):\n    area_id = 1",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "LAT_BINS",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "LAT_BINS = [(-90, -30), (-30, 30), (30, 90)]\nLON_BINS = [\n    (-180, -120), (-120, -60), (-60, 0),\n    (0, 60), (60, 120), (120, 180)\n]\nOFFSET_PAGINATION = 10\nMAX_TOTAL_DATA = 600\ndef find_area(lat, lon):\n    area_id = 1\n    for lat_min, lat_max in LAT_BINS:",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "LON_BINS",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "LON_BINS = [\n    (-180, -120), (-120, -60), (-60, 0),\n    (0, 60), (60, 120), (120, 180)\n]\nOFFSET_PAGINATION = 10\nMAX_TOTAL_DATA = 600\ndef find_area(lat, lon):\n    area_id = 1\n    for lat_min, lat_max in LAT_BINS:\n        for lon_min, lon_max in LON_BINS:",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "OFFSET_PAGINATION",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "OFFSET_PAGINATION = 10\nMAX_TOTAL_DATA = 600\ndef find_area(lat, lon):\n    area_id = 1\n    for lat_min, lat_max in LAT_BINS:\n        for lon_min, lon_max in LON_BINS:\n            if (\n                lat_min <= lat < lat_max and\n                lon_min <= lon < lon_max\n            ):",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "MAX_TOTAL_DATA",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "MAX_TOTAL_DATA = 600\ndef find_area(lat, lon):\n    area_id = 1\n    for lat_min, lat_max in LAT_BINS:\n        for lon_min, lon_max in LON_BINS:\n            if (\n                lat_min <= lat < lat_max and\n                lon_min <= lon < lon_max\n            ):\n                return f\"Area_{area_id}\"",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "EARTH_RADIUS_KM",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "EARTH_RADIUS_KM = 6371\ndef haversine(lat1, lon1, lat2, lon2):\n    d_lat = math.radians(lat2 - lat1)\n    d_lon = math.radians(lon2 - lon1)\n    a = (\n        math.sin(d_lat / 2) ** 2\n        + math.cos(math.radians(lat1))\n        * math.cos(math.radians(lat2))\n        * math.sin(d_lon / 2) ** 2\n    )",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "versions.index_v0",
+        "description": "versions.index_v0",
+        "peekOfCode": "app = Flask(__name__)\nSwagger(app)\n@app.route(\"/\")\ndef home():\n    \"\"\"\n    Home Endpoint\n    ---\n    responses:\n      200:\n        description: Return the api system status and documentation",
+        "detail": "versions.index_v0",
+        "documentation": {}
+    },
+    {
+        "label": "home",
+        "kind": 2,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "def home():\n    \"\"\"\n    Home Endpoint\n    ---\n    responses:\n      200:\n        description: Return the api system status and documentation\n    \"\"\"\n    return jsonify({\n        \"message\": \"API IS RUNNING WELL\",",
+        "detail": "index",
+        "documentation": {}
+    },
+    {
+        "label": "api_all_data",
+        "kind": 2,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "def api_all_data():\n    \"\"\"\n    Get all station data\n    ---\n    responses:\n      200:\n        description: List of all stations\n    \"\"\"\n    return jsonify(get_all_data())\n@app.route(\"/data/paginated\", methods=[\"GET\"])",
+        "detail": "index",
+        "documentation": {}
+    },
+    {
+        "label": "api_paginated",
+        "kind": 2,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "def api_paginated():\n    \"\"\"\n    Get paginated data\n    ---\n    parameters:\n      - name: page\n        in: query\n        type: integer\n        required: false\n      - name: limit",
+        "detail": "index",
+        "documentation": {}
+    },
+    {
+        "label": "api_by_id",
+        "kind": 2,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "def api_by_id(station_id):\n    \"\"\"\n    Get station by ID\n    ---\n    parameters:\n      - name: station_id\n        in: path\n        type: integer\n        required: true\n    responses:",
+        "detail": "index",
+        "documentation": {}
+    },
+    {
+        "label": "api_search",
+        "kind": 2,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "def api_search():\n    \"\"\"\n    Search nearest stations\n    ---\n    parameters:\n      - name: lat\n        in: query\n        type: number\n        required: true\n      - name: lon",
+        "detail": "index",
+        "documentation": {}
+    },
+    {
+        "label": "api_pairing",
+        "kind": 2,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "def api_pairing(id):\n    \"\"\"\n    Get pairing statistical data\n    ---\n    parameters:\n      - name: id\n        in: path\n        type: string\n        required: true\n    responses:",
+        "detail": "index",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "app = Flask(__name__)\nswagger = Swagger(app)\nCORS(app, origins=[\"*\"])\n@app.route(\"/\")\ndef home():\n    \"\"\"\n    Home Endpoint\n    ---\n    responses:\n      200:",
+        "detail": "index",
+        "documentation": {}
+    },
+    {
+        "label": "swagger",
+        "kind": 5,
+        "importPath": "index",
+        "description": "index",
+        "peekOfCode": "swagger = Swagger(app)\nCORS(app, origins=[\"*\"])\n@app.route(\"/\")\ndef home():\n    \"\"\"\n    Home Endpoint\n    ---\n    responses:\n      200:\n        description: Return the api system status and documentation",
+        "detail": "index",
+        "documentation": {}
+    }
+]

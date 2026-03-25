@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from flasgger import Swagger
 from services.data_service import *
 
 app = Flask(__name__)
 swagger = Swagger(app)
+CORS(app, origins=["*"])
 
 @app.route("/")
 def home():
