@@ -17,6 +17,8 @@ with open(DATA_DIR / "spliteddata.json") as f:
 with open(DATA_DIR / "pairingdata.json") as f:
     pairing_raw = json.load(f)
 
+with open(DATA_DIR / "statisticaldata.json") as f:
+    statistical_raw = json.load(f)
 
 def get_all_data():
     return all_data
@@ -137,4 +139,8 @@ def search_nearest(lat, lon, radius_km=1):
 
 def get_pairing_data_by_id(id: str):
     data = [i for i in pairing_raw if i["Station_ID"] == int(id)]
+    return data
+
+def get_statistical_data_by_id(id: str):
+    data = [i for i in statistical_raw if i["Station_ID"] == int(id)]
     return data

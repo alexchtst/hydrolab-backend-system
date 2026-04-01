@@ -98,3 +98,19 @@ def api_pairing(id):
         description: Pairing data
     """
     return jsonify(get_pairing_data_by_id_db(id))
+
+@online_route.route("/statistical/<string:id>", methods=["GET"])
+def api_pairing_statistical(id):
+    """
+    Get pure statistical data
+    ---
+    parameters:
+      - name: id
+        in: path
+        type: string
+        required: true
+    responses:
+      200:
+        description: Statistical pairing data
+    """
+    return jsonify(get_statistical_data_by_id_db(id))
