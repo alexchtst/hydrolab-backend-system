@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from services.data_service import *
+from services.database_service import *
 
 online_route = Blueprint("online_data", __name__)
 
@@ -12,7 +12,7 @@ def api_all_data():
       200:
         description: List of all stations
     """
-    return jsonify(get_all_data())
+    return jsonify(get_all_data_db())
 
 @online_route.route("/data/paginated", methods=["GET"])
 def api_paginated():
@@ -36,7 +36,7 @@ def api_paginated():
     page = int(request.args.get("page", 1))
     limit = int(request.args.get("limit", 20))
 
-    return jsonify(get_paginated_data(page, limit))
+    return jsonify(get_paginated_data_db(page, limit))
 
 @online_route.route("/data/<int:station_id>", methods=["GET"])
 def api_by_id(station_id):
@@ -81,7 +81,7 @@ def api_search():
     lon = float(request.args.get("lon"))
     radius = float(request.args.get("radius", 1))
 
-    return jsonify(search_nearest(lat, lon, radius))
+    return jsonify(search_nearest_db(lat, lon, radius))
 
 @online_route.route("/pairing/<string:id>", methods=["GET"])
 def api_pairing(id):
@@ -97,4 +97,4 @@ def api_pairing(id):
       200:
         description: Pairing data
     """
-    return jsonify(get_pairing_data_by_id(id))
+    return jsonify(get_pairing_data_by_id_db(id))
