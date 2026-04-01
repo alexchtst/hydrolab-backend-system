@@ -150,4 +150,4 @@ def search_nearest_db(lat, lon, radius_km=1):
 
 def get_pairing_data_by_id_db(id: str):
     pairing_content = db['pairings'].find_one({"Station_ID": int(id)})
-    return pairing_content['data']
+    return pairing_content
