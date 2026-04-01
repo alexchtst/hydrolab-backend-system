@@ -5,20 +5,18 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 
-with open(DATA_DIR / "info-grid.json") as f:
+with open(DATA_DIR / "infogrid.json") as f:
     grid_meta = json.load(f)
 
-with open(DATA_DIR / "all-data.json") as f:
+with open(DATA_DIR / "metadata.json") as f:
     all_data = json.load(f)
 
-with open(DATA_DIR / "splited-data.json") as f:
+with open(DATA_DIR / "spliteddata.json") as f:
     splited_data = json.load(f)
 
 with open(DATA_DIR / "pairingdata.json") as f:
     pairing_raw = json.load(f)
 
-pairing_year = pairing_raw["year"]
-pairing_content = pairing_raw["content"]
 
 def get_all_data():
     return all_data
@@ -138,4 +136,5 @@ def search_nearest(lat, lon, radius_km=1):
     return results
 
 def get_pairing_data_by_id(id: str):
-    return pairing_content.get(id)
+    data = [i for i in pairing_raw if i["Station_ID"] == int(id)]
+    return data
